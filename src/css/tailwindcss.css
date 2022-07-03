@@ -1,0 +1,13 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.flex-0\.5 {
+    flex: 0.5;
+}
+.flex-2 {
+    flex: 2;
+}
+.error{
+    @apply bg-red-300;
+}
