@@ -25,6 +25,7 @@ export default class Game extends Component {
 
     // Key Press Handle Function
     handleKeyDown(event) {
+        console.log(this.state.gameTiles);
         const wordleRow = document.querySelector('#board .row.active').childNodes;
         const key = !event.key ? event:event.key;
         document.querySelector(`#keyboard .key-${key}`).blur();
@@ -83,7 +84,11 @@ export default class Game extends Component {
 
     // Initial Game Setup
     init() {
-        this.state.gameTiles[0].active = true;
+        const gameTiles = [...this.state.gameTiles];
+        const row = {...gameTiles[0]};
+        row.active = true;
+        gameTiles[0] = row;
+        this.setState({gameTiles});
     }
 
     gameboardResize() {
