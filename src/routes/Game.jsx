@@ -92,15 +92,20 @@ export default class Game extends Component {
     }
 
     gameboardResize() {
-        const gameBoard = document.getElementById('board');
-        const tileboardHeight = document.getElementById('game-tileboard').clientHeight;
+        const wrapper = document.getElementById('game');
+        const keyboard = document.getElementById('game-keyboard');
+        const gameboard = document.getElementById('game-tileboard');
+        const tileboard = document.getElementById('board');
 
-        if (tileboardHeight > 510) {
-            gameBoard.style.width = 344 + 'px';
-            gameBoard.style.height = 414 + 'px'; 
+        console.log(window.innerHeight - keyboard.clientHeight);
+
+        if (wrapper.clientHeight < 727) {
+            if (wrapper.clientHeight < 650) 
+            tileboard.style.height = (window.innerHeight - keyboard.clientHeight) - 144 + 'px';
+            tileboard.style.width = tileboard.clientHeight - (tileboard.clientWidth / tileboard.clientHeight * 100) + 'px';
         } else {
-            gameBoard.style.width = ((510 + window.innerWidth) - 344) + 'px';
-            gameBoard.style.height = ((510 + window.innerHeight) - 414) + 'px';
+            tileboard.style.width = '334px';
+            tileboard.style.height = '414px';
         }
     }
 
