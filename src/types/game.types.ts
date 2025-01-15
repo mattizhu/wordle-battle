@@ -6,7 +6,7 @@ export interface GameContextType {
 export type GameContextStateType = {
   gameBoard: GameBoardTileType[];
   word: string | null;
-  keyboardState: Record<string, "default" | "absent" | "present" | "correct">;
+  keyboardState: Record<string, GameKeyboardStateType>;
 };
 export type GameBoardTileType = {
   row: {
@@ -15,3 +15,4 @@ export type GameBoardTileType = {
   }[],
   active: boolean
 };
+export type GameKeyboardStateType = "absent" | "present" | "correct" | "default";
