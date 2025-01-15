@@ -3,13 +3,25 @@
 import {Delete} from "lucide-react";
 
 import {useGameContext} from "@/contexts/gameContext";
+import {addInput, checkGuess, removeInput} from "@/lib/actions";
 
 export default function GameKeyboard() {
-  const {gameContext} = useGameContext();
+  const {gameContext, updateGameContext} = useGameContext();
+  
+  const handleKeyPress = (key: string) => {
+    if (key.match(/^[a-zA-Z]$/)) {
+      updateGameContext({gameBoard: addInput(gameContext.gameBoard, key)});
+    } else if (key === "Backspace") {
+      updateGameContext({gameBoard: removeInput(gameContext.gameBoard)});
+    } else if (key === "Enter") {
+      const response = checkGuess(gameContext);
+      if (response?.gameBoard && response?.keyboardState) updateGameContext({gameBoard: response.gameBoard, keyboardState: response.keyboardState});
+    }
+  }
   
   const generateKeys = (keySet: string[]) => {
     return keySet.map(key => (
-      <div key={key} className={`flex flex-1 justify-center items-center ${["Enter", "Backspace"].includes(key) ? "min-w-20 text-base" : "min-w-10 text-2xl"} h-14 font-semibold  text-center uppercase rounded-md cursor-pointer select-none ${gameContext.keyboardState[key] === "correct" ? "bg-emerald-600 text-white" : gameContext.keyboardState[key] === "present" ? "bg-yellow-600 text-white" : gameContext.keyboardState[key] === "absent" ? "bg-neutral-800 text-neutral-500" : "bg-neutral-500 text-neutral-300"} transition-all hover:opacity-80`}>{key === "Backspace" ? <Delete /> : key}</div>
+      <div key={key} className={`flex flex-1 justify-center items-center ${["Enter", "Backspace"].includes(key) ? "min-w-20 text-base" : "min-w-10 text-2xl"} h-14 font-semibold  text-center uppercase rounded-md cursor-pointer select-none ${gameContext.keyboardState[key] === "correct" ? "bg-emerald-600 text-white" : gameContext.keyboardState[key] === "present" ? "bg-yellow-600 text-white" : gameContext.keyboardState[key] === "absent" ? "bg-neutral-800 text-neutral-500" : "bg-neutral-500 text-neutral-300"} transition-all hover:opacity-80`} onClick={() => handleKeyPress(key)}>{key === "Backspace" ? <Delete /> : key}</div>
     ));
   };
   
